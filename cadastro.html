@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - DevFLIX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .btn-voltar {
+            display: block;
+            text-align: center;
+            margin: 12px 0 4px 0;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-voltar:hover {
+            background: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body class="login-page">
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">
+                <h1 class="logo">Dev<span>FLIX</span></h1>
+            </div>
+
+            <h2 class="login-title">Criar Conta</h2>
+            <p class="login-subtitle">Cadastre-se para acessar o catálogo</p>
+
+            {% if erro %}
+            <div class="login-error" id="login-error">
+                <span class="login-error-icon">⚠️</span>
+                <span>{{ erro }}</span>
+            </div>
+            {% endif %}
+
+            <form method="POST" class="login-form" id="cadastro-form">
+
+                <div class="input-group">
+                    <input type="text" name="nome" id="nome" placeholder=" " required autocomplete="name">
+                    <label for="nome">Nome completo</label>
+                    <div class="input-highlight"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" name="email" id="email" placeholder=" " required autocomplete="email">
+                    <label for="email">Email</label>
+                    <div class="input-highlight"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="senha" id="senha" placeholder=" " required
+                        autocomplete="new-password" minlength="8">
+                    <label for="senha">Senha</label>
+                    <div class="input-highlight"></div>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="confirmar_senha" id="confirmar_senha" placeholder=" " required
+                        autocomplete="new-password" minlength="8">
+                    <label for="confirmar_senha">Confirmar Senha</label>
+                    <div class="input-highlight"></div>
+                </div>
+
+                <p style="font-size: 0.78rem; color: #aaa; margin: -8px 0 12px 0;">
+                    🔒 Mínimo de 8 caracteres e pelo menos um caractere especial (ex: !@#$%)
+                </p>
+
+                <button type="submit" class="btn-login" id="btn-cadastro">
+                    <span class="btn-login-text">Cadastrar</span>
+                    <span class="btn-login-loader" style="display:none;">
+                        <span class="btn-spinner"></span>
+                    </span>
+                </button>
+            </form>
+
+            <a href="{{ url_for('login') }}" class="btn-voltar">← Voltar para o Login</a>
+
+            <div class="login-footer">
+                <p>Já tem uma conta? <a href="{{ url_for('login') }}"
+                        style="color: #e50914; text-decoration: none; font-weight: bold;">Entrar</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('cadastro-form');
+        const btn = document.getElementById('btn-cadastro');
+
+        form.addEventListener('submit', (e) => {
+            const senha = document.getElementById('senha').value;
+            const confirmar = document.getElementById('confirmar_senha').value;
+
+            if (senha !== confirmar) {
+                e.preventDefault();
+                alert('As senhas não coincidem!');
+                return;
+            }
+
+            btn.querySelector('.btn-login-text').style.display = 'none';
+            btn.querySelector('.btn-login-loader').style.display = 'flex';
+            btn.disabled = true;
+            btn.style.opacity = '0.8';
+        });
+    </script>
+
+</body>
+
+</html>
